@@ -1,14 +1,20 @@
-## 1.	Introduction
-Information retrieval has become increasingly critical in the digital age, where vast amounts of unstructured data are generated daily. Traditional keyword-based search systems, while functional, suffer from significant limitations in understanding user intent and context. These systems rely on exact word matching, making them ineffective when users phrase queries differently from how information is presented in documents. This vocabulary mismatch problem leads to poor search results and user frustration. 
-Semantic search represents a paradigm shift from keyword matching to meaning-based retrieval. By leveraging transformer-based language models, semantic search systems can understand the underlying concepts and relationships within text, enabling them to retrieve contextually relevant documents even when exact keywords are absent. This approach is particularly valuable in academic and research environments where finding relevant literature requires understanding complex concepts and their relationships. 
-Recent advances in natural language processing, particularly the development of Sentence Transformers and efficient vector similarity search libraries like FAISS, have made implementing production-grade semantic search systems accessible and practical. These technologies enable the encoding of text into dense vector embeddings that capture semantic meaning, allowing for rapid similarity-based retrieval across large document collections. This project aims to build an intelligent semantic search engine that demonstrates these capabilities on a curated dataset of research papers in AI, machine learning, and cloud computing domains.
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-## 2.	Problem Statement
-Traditional keyword-based search systems fail to retrieve relevant documents when there is a mismatch between query terminology and document vocabulary, even when documents are semantically relevant.
+# Run and deploy your AI Studio app
 
-## 3.	Limitations of Existing Solutions
-Current keyword-based search engines face several critical limitations. First, they cannot understand context or user intent, treating queries as mere collections of words rather than meaningful expressions of information needs. Second, they fail to recognize synonyms and related concepts, meaning a search for 'machine learning algorithms' might miss relevant papers discussing 'classification models' or 'supervised learning techniques.' Third, these systems struggle with ambiguous terms that have multiple meanings depending on context, such as 'Python' referring to either the programming language or the snake. 
-Additionally, traditional search systems require exact or near-exact matches, making them brittle when dealing with variations in phrasing, technical jargon, or domain-specific terminology. This limitation is particularly problematic in academic research, where the same concept may be described using different terminology across papers from various research groups or time periods. 
+This contains everything you need to run your app locally.
 
-## 4.	Proposed Solution
-This project addresses these limitations by implementing a semantic search engine that uses transformer-based sentence embeddings to capture the meaning and context of both queries and documents. By representing text as dense vectors in a high-dimensional semantic space, the system can identify conceptually similar documents regardless of exact keyword matches. The use of FAISS indexing enables efficient similarity search even across large document collections, making the solution scalable and practical for real-world applications.
+View your app in AI Studio: https://ai.studio/apps/7710472f-3a57-480d-8dcd-8ddbe8b02d98
+
+## Run Locally
+
+**Prerequisites:**  Node.js
+
+
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
