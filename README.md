@@ -1,20 +1,40 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# WiSearch 🔍
 
-# Run and deploy your AI Studio app
+An **Intelligent Semantic Search Engine** designed to solve the vocabulary mismatch problem in academic research. 
 
-This contains everything you need to run your app locally.
+Traditional keyword search treats queries as a bag of words, failing when your phrasing doesn't precisely match the document's. WiSearch understands context, synonyms, and the actual intent behind your query using dense numerical embeddings.
 
-View your app in AI Studio: https://ai.studio/apps/7710472f-3a57-480d-8dcd-8ddbe8b02d98
+## Features
+- **Semantic Understanding**: Search by meaning, not just exact keywords.
+- **Curated Dataset**: Currently focused on foundational papers in AI, Machine Learning, and Cloud Computing.
+- **Modern & Elegant Interface**: Clean, minimal UI with smooth animations and Dark/Light mode support.
 
-## Run Locally
+## Tech Stack
+- **Frontend:** React, TypeScript, Vite
+- **Styling:** Tailwind CSS
+- **Animations:** Framer Motion
+- **Icons:** Lucide React
 
-**Prerequisites:**  Node.js
+## Getting Started
 
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-username/wisearch.git
+   cd wisearch
+   ```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+
+## About the Project
+This project was built as a **B.Tech Capstone Project** by Computer Science & Engineering students:
+Abhishek Gusain, Dhruv, Hemant Garg, Ayush Chauhan, Chaitanya Dhawan, and Yogeeta.
+
+*Submitted under the supervision of Dr. Meena Chaudhary.*
