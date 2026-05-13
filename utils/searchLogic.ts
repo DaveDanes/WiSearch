@@ -37,9 +37,9 @@ export const validateDataset = (): ValidationResult => {
 };
 
 /**
- * SIMULATION OF SEMANTIC SEARCH
- * Upgraded to simulate true vector embeddings by mapping natural language 
- * questions and concepts to underlying domains and related terms.
+ * SIMULATION OF HYBRID SEARCH (Semantic + Lexical BM25)
+ * Combines exact keyword matching with semantic concept expansion
+ * and merges them using Reciprocal Rank Fusion (RRF).
  */
 export const simulateVectorSearch = (query: string): Promise<Paper[]> => {
   return new Promise((resolve, reject) => {
@@ -51,10 +51,9 @@ export const simulateVectorSearch = (query: string): Promise<Paper[]> => {
     setTimeout(() => {
       try {
         const lowerQuery = query.toLowerCase().trim();
+        const originalTerms = lowerQuery.split(/\s+/).filter(t => t.length > 2);
         
         // 1. Semantic Concept Mapping (Simulating Vector Proximity)
-        // If the query contains these concepts/questions, we expand the search terms
-        // to simulate how an embedding model understands "meaning".
         const semanticExpansions: string[] = [];
         
         // Concept: General AI / ML
@@ -87,49 +86,76 @@ export const simulateVectorSearch = (query: string): Promise<Paper[]> => {
           semanticExpansions.push("distributed", "storage", "cluster", "aws", "elastic");
         }
 
-        // Combine original words (ignoring stop words) with semantic expansions
-        const stopWords = ["what", "is", "the", "how", "do", "does", "a", "to", "in", "for", "of", "on", "and", "with"];
-        const originalTerms = lowerQuery.split(/\s+/).filter(t => !stopWords.includes(t) && t.length > 1);
-        const allSearchTerms = [...new Set([...originalTerms, ...semanticExpansions])];
-
+        // Generate independent scores for Lexical and Semantic engines
         const scoredPapers = papers.map(paper => {
-          let score = 0;
+          let lexicalScore = 0;
+          let semanticScore = 0;
+
           const lowerTitle = paper.title.toLowerCase();
           const lowerAbstract = paper.abstract.toLowerCase();
           const lowerDomain = paper.domain.toLowerCase();
+          const lowerAuthors = paper.authors.toLowerCase();
 
-          // 1. Exact phrase match (Highest relevance)
-          if (lowerTitle.includes(lowerQuery)) score += 100;
-          if (lowerAbstract.includes(lowerQuery)) score += 60;
+          // Phase A: Lexical Scoring (Simulating BM25) 
+          // Pure keyword/phrase matches
+          if (lowerTitle.includes(lowerQuery)) lexicalScore += 100;
+          if (lowerAbstract.includes(lowerQuery)) lexicalScore += 60;
+          if (lowerAuthors.includes(lowerQuery)) lexicalScore += 80;
 
-          // 2. Semantic & Term matching
-          allSearchTerms.forEach(term => {
-            // If it's an expanded semantic term, give it a "semantic boost"
-            const isSemanticTerm = semanticExpansions.includes(term);
-            const titleBoost = isSemanticTerm ? 15 : 20;
-            const abstractBoost = isSemanticTerm ? 10 : 10;
-            const domainBoost = isSemanticTerm ? 25 : 15;
-
-            if (lowerTitle.includes(term)) score += titleBoost;
-            if (lowerAbstract.includes(term)) score += abstractBoost;
-            if (lowerDomain.includes(term)) score += domainBoost;
+          originalTerms.forEach(term => {
+            if (lowerTitle.includes(term)) lexicalScore += 20;
+            if (lowerAbstract.includes(term)) lexicalScore += 10;
+            if (lowerDomain.includes(term)) lexicalScore += 15;
+            if (lowerAuthors.includes(term)) lexicalScore += 30;
           });
 
-          // 3. Recency boost (newer papers get a slight edge)
-          if (paper.year > 2020) score += 5;
+          // Phase B: Semantic Scoring (Simulating FAISS Vector Distance)
+          // Scores based on conceptual expansion
+          semanticExpansions.forEach(term => {
+            if (lowerTitle.includes(term)) semanticScore += 25;
+            if (lowerAbstract.includes(term)) semanticScore += 15;
+            if (lowerDomain.includes(term)) semanticScore += 30;
+          });
 
-          return { ...paper, relevanceScore: score };
+          // Recency boost applies to both mildly
+          if (paper.year > 2020) {
+            lexicalScore += 5;
+            semanticScore += 5;
+          }
+
+          return { ...paper, lexicalScore, semanticScore, rrfScore: 0 };
         });
 
-        // Filter and sort
-        const results = scoredPapers
-          .filter(p => p.relevanceScore > 10) // Threshold to ensure quality
+        // Phase C: Reciprocal Rank Fusion (RRF)
+        // 1. Sort and rank by Lexical
+        const lexicalRanked = [...scoredPapers].sort((a, b) => b.lexicalScore - a.lexicalScore);
+        const semanticRanked = [...scoredPapers].sort((a, b) => b.semanticScore - a.semanticScore);
+        
+        const k = 60; // Standard RRF constant
+        
+        const rrfPapers = scoredPapers.map(paper => {
+          const lexIndex = lexicalRanked.findIndex(p => p.id === paper.id) + 1;
+          const semIndex = semanticRanked.findIndex(p => p.id === paper.id) + 1;
+          
+          const rrfScore = 
+            (paper.lexicalScore > 0 ? 1 / (k + lexIndex) : 0) + 
+            (paper.semanticScore > 0 ? 1 / (k + semIndex) : 0);
+
+          return { 
+            ...paper, 
+            relevanceScore: Math.round(rrfScore * 10000) // Multiply to make UI score readable
+          };
+        });
+
+        // Filter and sort by final Hybrid RRF score
+        const results = rrfPapers
+          .filter(p => p.relevanceScore > 0)
           .sort((a, b) => b.relevanceScore - a.relevanceScore)
           .slice(0, 6);
 
         resolve(results);
       } catch (error) {
-        reject(new Error("Failed to process embeddings."));
+        reject(new Error("Failed to process hybrid search."));
       }
     }, 1200);
   });

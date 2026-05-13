@@ -39,7 +39,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onComplete }) => {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black overflow-hidden"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-zinc-50 dark:bg-black overflow-hidden"
       exit={{ opacity: 0, transition: { duration: 1, ease: "easeInOut" } }}
     >
       {/* SVG Filter for Gooey Effect */}

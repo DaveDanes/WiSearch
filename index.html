@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
+        darkMode: 'class',
         theme: {
           extend: {
             fontFamily: {
@@ -55,11 +56,36 @@
       }
     </script>
     <style>
+      :root {
+        --bg-color: #fafafa;
+        --text-color: #18181b;
+        --mesh-bg: #f4f4f5;
+        --glass-bg: rgba(255, 255, 255, 0.6);
+        --glass-border: rgba(0, 0, 0, 0.08);
+        --glass-card-bg: rgba(255, 255, 255, 0.7);
+        --glass-card-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        --scrollbar-track: #f1f1f1;
+        --scrollbar-thumb: #ccc;
+      }
+      
+      html.dark {
+        --bg-color: #050505;
+        --text-color: #e4e4e7;
+        --mesh-bg: #050505;
+        --glass-bg: rgba(20, 20, 23, 0.6);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        --glass-card-bg: rgba(30, 30, 35, 0.7);
+        --glass-card-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+        --scrollbar-track: #0a0a0a;
+        --scrollbar-thumb: #333;
+      }
+
       body {
-        background-color: #050505;
-        color: #e4e4e7;
+        background-color: var(--bg-color);
+        color: var(--text-color);
         position: relative;
         overflow-x: hidden;
+        transition: background-color 0.3s ease, color 0.3s ease;
       }
       
       /* Grainy Texture */
@@ -72,19 +98,19 @@
         z-index: 50;
       }
 
-      /* Dark Glassmorphism */
+      /* Glassmorphism using CSS variables */
       .glass {
-        background: rgba(20, 20, 23, 0.6);
+        background: var(--glass-bg);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--glass-border);
       }
 
       .glass-card {
-        background: rgba(30, 30, 35, 0.7);
+        background: var(--glass-card-bg);
         backdrop-filter: blur(24px);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--glass-card-shadow);
       }
 
       .mesh-bg {
@@ -94,8 +120,9 @@
         width: 100vw;
         height: 100vh;
         z-index: -1;
-        background: #050505;
+        background: var(--mesh-bg);
         overflow: hidden;
+        transition: background 0.3s ease;
       }
 
       .mesh-blob {
@@ -103,13 +130,17 @@
         border-radius: 50%;
         filter: blur(100px);
         opacity: 0.45;
+        mix-blend-mode: multiply;
+      }
+      
+      html.dark .mesh-blob {
         mix-blend-mode: screen;
       }
 
       /* Custom selection */
       ::selection {
         background: rgba(249, 115, 22, 0.3); /* Orange selection */
-        color: #fff;
+        color: inherit;
       }
       
       /* Scrollbar */
@@ -117,14 +148,14 @@
         width: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #0a0a0a; 
+        background: var(--scrollbar-track); 
       }
       ::-webkit-scrollbar-thumb {
-        background: #333; 
+        background: var(--scrollbar-thumb); 
         border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #444; 
+        background: #888; 
       }
     </style>
   <script type="importmap">

@@ -47,19 +47,19 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear, isSearching, p
         <div 
           className={`
             relative overflow-hidden rounded-2xl transition-all duration-300
-            ${isFocused ? 'bg-zinc-900 shadow-2xl ring-1 ring-orange-500/50' : 'bg-zinc-900/80 backdrop-blur-md border border-white/10'}
+            ${isFocused ? 'bg-white dark:bg-zinc-900 shadow-2xl ring-1 ring-orange-500/50' : 'bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-black/10 dark:border-white/10'}
           `}
         >
           <div className="flex items-center px-6 py-5">
             <svg 
-              className={`w-5 h-5 transition-colors duration-300 ${isFocused ? 'text-orange-500' : 'text-zinc-500'}`} 
+              className={`w-5 h-5 transition-colors duration-300 ${isFocused ? 'text-orange-500' : 'text-zinc-400 dark:text-zinc-500'}`} 
               fill="none" stroke="currentColor" viewBox="0 0 24 24"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
             </svg>
             <input
               type="text"
-              className="w-full bg-transparent border-none focus:ring-0 text-lg text-white placeholder-zinc-600 font-medium px-4"
+              className="w-full bg-transparent border-none focus:ring-0 text-lg text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-600 font-medium px-4"
               placeholder={placeholders[placeholderIndex]}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -76,7 +76,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear, isSearching, p
               <button
                 type="button"
                 onClick={handleClear}
-                className="p-2 rounded-full text-zinc-400 hover:text-white hover:bg-white/10 transition-colors"
+                className="p-2 rounded-full text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
                 title="Clear search"
               >
                 <X className="w-5 h-5" />
@@ -90,7 +90,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear, isSearching, p
               <button
                 type="submit"
                 disabled={isSearching}
-                className="bg-white text-black p-2 rounded-xl hover:bg-orange-500 hover:text-white transition-all shadow-lg shadow-orange-500/20"
+                className="bg-zinc-900 dark:bg-white text-white dark:text-black p-2 rounded-xl hover:bg-orange-500 hover:text-white dark:hover:bg-orange-500 dark:hover:text-white transition-all shadow-lg shadow-orange-500/20"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -101,7 +101,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear, isSearching, p
           
           {/* Neon Progress Line */}
           {isSearching && (
-            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-zinc-800 overflow-hidden">
+            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
               <div 
                 className="h-full bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 shadow-[0_0_10px_rgba(249,115,22,0.8)] transition-all duration-200 ease-out"
                 style={{ width: `${progress}%` }}
