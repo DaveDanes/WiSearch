@@ -37,17 +37,76 @@ export const validateDataset = (): ValidationResult => {
 };
 
 /**
- * SIMULATION OF HYBRID SEARCH (Semantic + Lexical BM25)
- * Combines exact keyword matching with semantic concept expansion
- * and merges them using Reciprocal Rank Fusion (RRF).
+ * Validates if a user's query is somewhat related to our domain to prevent completely irrelevant searches
  */
-export const simulateVectorSearch = (query: string): Promise<Paper[]> => {
-  return new Promise((resolve, reject) => {
-    if (!query) {
-      resolve([]);
-      return;
-    }
+export const isDomainRelevant = (query: string): boolean => {
+  const lowerQuery = query.toLowerCase().trim();
+  if (lowerQuery.length < 3) return false;
 
+  // We check against a broad list of AI, ML, Cloud, and computer science concepts
+  const validConcepts = [
+    "ai", "ml", "artificial", "intelligence", "machine", "learning", "deep", "neural", 
+    "network", "nlp", "bert", "transformer", "vision", "image", "cloud", "data", 
+    "scale", "server", "distributed", "model", "language", "understand", "text", 
+    "computer", "teach", "learn", "algorithm", "prediction", "robot", "math",
+    "search", "information", "retrieval", "semantic", "vector", "embedding", 
+    "faiss", "framework", "architecture", "system", "database", "graph", "generative"
+  ];
+
+  // Tokenize query
+  const queryWords = lowerQuery.split(/[\s,]+/);
+
+  // If any word in the query matches or partially matches our valid concepts, we let it pass.
+  // This is a permissive check.
+  for (const word of queryWords) {
+    if (validConcepts.some(concept => word.includes(concept) || concept.includes(word))) {
+      // additional check to avoid short matches like "a" matching "ai"
+      if (word.length >= 2 || word === "ai" || word === "ml") {
+        return true;
+      }
+    }
+  }
+
+  // Also check if any word from query exists exactly in any paper's title or abstract 
+  // as a fallback for niche terms we didn't list in validConcepts.
+  for (const paper of papers) {
+    const title = paper.title.toLowerCase();
+    const abstract = paper.abstract.toLowerCase();
+    for (const word of queryWords) {
+      if (word.length > 3 && (title.includes(word) || abstract.includes(word))) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
+
+/**
+ * INTELLIGENT SEMANTIC SEARCH (Hybrid Fallback)
+ * 1. Tries to connect to the Python FAISS micro-backend
+ * 2. If backend is offline, gracefully falls back to TS simulated search
+ */
+export const simulateVectorSearch = async (query: string): Promise<Paper[]> => {
+  if (!query) return [];
+
+  try {
+    // 1. Attempt connection to Python Micro-Backend FAISS + SentenceTransformers
+    const response = await fetch(`http://localhost:8000/api/search?query=${encodeURIComponent(query)}&top_k=6`);
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Connected to Python FAISS Backend!");
+      return data.results.map((p: any) => ({
+        ...p,
+        relevanceScore: Math.round(p.score * 100) // Mapping FAISS 0-100 to frontend 0-10000 
+      }));
+    }
+  } catch (backendError) {
+    console.log("Python Backend offline or unreachable. Falling back to TS Simulated Search.");
+  }
+
+  // 2. FALLBACK: SIMULATION OF HYBRID SEARCH (Semantic + Lexical BM25)
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       try {
         const lowerQuery = query.toLowerCase().trim();
@@ -117,10 +176,10 @@ export const simulateVectorSearch = (query: string): Promise<Paper[]> => {
             if (lowerDomain.includes(term)) semanticScore += 30;
           });
 
-          // Recency boost applies to both mildly
+          // Recency boost applies to both mildly, ONLY if there's already a match
           if (paper.year > 2020) {
-            lexicalScore += 5;
-            semanticScore += 5;
+            if (lexicalScore > 0) lexicalScore += 5;
+            if (semanticScore > 0) semanticScore += 5;
           }
 
           return { ...paper, lexicalScore, semanticScore, rrfScore: 0 };

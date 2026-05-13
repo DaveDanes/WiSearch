@@ -14,6 +14,7 @@ export enum SearchState {
   SEARCHING = 'SEARCHING',
   RESULTS = 'RESULTS',
   NO_RESULTS = 'NO_RESULTS',
+  INVALID_QUERY = 'INVALID_QUERY',
   ERROR = 'ERROR'
 }
 

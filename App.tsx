@@ -50,10 +50,21 @@ const App: React.FC = () => {
     setSearchState(SearchState.SEARCHING);
     setResults([]);
     setProgress(0);
-    
+
     const interval = setInterval(() => {
       setProgress(prev => (prev >= 95 ? 95 : prev + Math.random() * 10));
     }, 100);
+
+    // Initial domain validation
+    const { isDomainRelevant } = await import('./utils/searchLogic');
+    if (!isDomainRelevant(query)) {
+      clearInterval(interval);
+      setProgress(100);
+      setTimeout(() => {
+        setSearchState(SearchState.INVALID_QUERY);
+      }, 400);
+      return;
+    }
 
     try {
       const searchResults = await simulateVectorSearch(query);
@@ -174,6 +185,20 @@ const App: React.FC = () => {
 
                 {/* Results Area */}
                 <div className="relative min-h-[400px]">
+                  {searchState === SearchState.INVALID_QUERY && (
+                    <div className="text-center py-24 animate-fade-in">
+                      <div className="w-16 h-16 dark:bg-orange-900/20 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                      </div>
+                      <h3 className="text-2xl font-medium dark:text-white text-zinc-900 mb-3">Irrelevant Query Detected</h3>
+                      <p className="dark:text-zinc-400 text-zinc-600 max-w-lg mx-auto leading-relaxed">
+                        It looks like your search isn't related to this dataset. Please enter queries related to 
+                        <span className="font-medium text-orange-500 dark:text-orange-400 mx-1">AI, Machine Learning, BERT, NLP, Cloud Computing,</span> 
+                        or other computer science concepts.
+                      </p>
+                    </div>
+                  )}
+
                   {searchState === SearchState.NO_RESULTS && (
                     <div className="text-center py-24 animate-fade-in">
                       <h3 className="text-xl font-medium dark:text-white text-zinc-900 mb-2">No matches found</h3>
