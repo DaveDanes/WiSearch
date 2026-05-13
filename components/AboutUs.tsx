@@ -37,10 +37,10 @@ const AboutUs: React.FC<AboutUsProps> = ({ onBack }) => {
       <div className="mb-24 max-w-3xl mx-auto text-center">
         <h2 className="text-2xl font-serif text-[#1C1917] dark:text-[#F7F5F0] mb-6">Who We Are</h2>
         <p className="text-lg text-stone-600 dark:text-stone-400 leading-relaxed font-light">
-          We are a team of seven Computer Science students from the B.Tech programme, working together on a problem that quietly frustrates every researcher, student, and knowledge worker — finding the right information, even when you don't know the exact words to search for.
+          We are a team of seven B.Tech students from the Department of Computer Science and Technology at Manav Rachna University, working together on a problem that quietly frustrates every researcher, student, and knowledge worker — finding the right information, even when you don't know the exact words to search for.
         </p>
         <p className="text-lg text-stone-600 dark:text-stone-400 leading-relaxed mt-4 font-light">
-          This project is our capstone — our most serious, most ambitious academic work yet. It is supervised by <span className="text-[#1C1917] dark:text-[#F7F5F0] font-medium tracking-wide">Dr. Meena Chaudhary</span>, whose guidance has helped us think not just as students, but as engineers solving a real problem.
+          This project is our Capstone Project-I — our most serious, most ambitious academic work yet. It is supervised by <span className="text-[#1C1917] dark:text-[#F7F5F0] font-medium tracking-wide">Dr. Meena Chaudhary</span>, whose guidance has helped us think not just as students, but as engineers solving a real problem.
         </p>
       </div>
 
@@ -214,8 +214,10 @@ const AboutUs: React.FC<AboutUsProps> = ({ onBack }) => {
 
       {/* Footer */}
       <div className="text-center border-t border-stone-200 dark:border-stone-700/50 pt-12">
-        <p className="text-stone-500 text-sm mb-2 uppercase tracking-widest text-[10px]">B.Tech Capstone Project · Computer Science & Engineering</p>
-        <p className="text-stone-400 dark:text-stone-500 text-xs font-serif italic">Submitted under the supervision of Dr. Meena Chaudhary</p>
+        <p className="text-stone-500 font-medium mb-1 uppercase tracking-widest text-[11px]">B.Tech Capstone Project-I</p>
+        <p className="text-stone-400 dark:text-stone-500 text-xs mb-1">Department of Computer Science and Technology</p>
+        <p className="text-stone-400 dark:text-stone-500 text-xs mb-3">Manav Rachna University, Faridabad</p>
+        <p className="text-stone-400 dark:text-stone-500 text-[11px] font-serif italic pb-4">Submitted under the supervision of Dr. Meena Chaudhary</p>
       </div>
 
     </motion.div>
