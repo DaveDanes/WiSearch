@@ -39,27 +39,26 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear, isSearching, p
   };
 
   return (
-    <div className={`relative group transition-all duration-500 ease-out transform ${isFocused ? 'scale-105' : 'scale-100'}`}>
-      {/* Glow effect behind search bar */}
-      <div className={`absolute -inset-1 bg-gradient-to-r from-orange-600 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 ${isFocused ? 'opacity-70' : ''}`}></div>
+    <div className={`relative group transition-all duration-500 ease-out transform ${isFocused ? 'scale-[1.02]' : 'scale-100'}`}>
       
       <form onSubmit={handleSubmit} className="relative z-10">
         <div 
           className={`
-            relative overflow-hidden rounded-2xl transition-all duration-300
-            ${isFocused ? 'bg-white dark:bg-zinc-900 shadow-2xl ring-1 ring-orange-500/50' : 'bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-black/10 dark:border-white/10'}
+            relative overflow-hidden transition-all duration-300
+            ${isFocused ? 'bg-white dark:bg-[#292524] shadow-xl ring-1 ring-stone-900/10 dark:ring-stone-100/10' : 'bg-white/80 dark:bg-[#292524]/80 backdrop-blur-md border border-stone-200 dark:border-stone-700/50'}
           `}
+          style={{ borderRadius: '2rem' }}
         >
           <div className="flex items-center px-6 py-5">
             <svg 
-              className={`w-5 h-5 transition-colors duration-300 ${isFocused ? 'text-orange-500' : 'text-zinc-400 dark:text-zinc-500'}`} 
+              className={`w-5 h-5 transition-colors duration-300 ${isFocused ? 'text-[#9A3412] dark:text-[#D6D3D1]' : 'text-stone-400 dark:text-stone-500'}`} 
               fill="none" stroke="currentColor" viewBox="0 0 24 24"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
             </svg>
             <input
               type="text"
-              className="w-full bg-transparent border-none focus:ring-0 text-lg text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-600 font-medium px-4"
+              className="w-full bg-transparent border-none focus:ring-0 text-lg text-stone-900 dark:text-[#F7F5F0] placeholder-stone-400 dark:placeholder-stone-500 font-serif italic px-4"
               placeholder={placeholders[placeholderIndex]}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -76,7 +75,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear, isSearching, p
               <button
                 type="button"
                 onClick={handleClear}
-                className="p-2 rounded-full text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                className="p-2 rounded-full text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-[#F7F5F0] hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
                 title="Clear search"
               >
                 <X className="w-5 h-5" />
@@ -90,7 +89,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear, isSearching, p
               <button
                 type="submit"
                 disabled={isSearching}
-                className="bg-zinc-900 dark:bg-white text-white dark:text-black p-2 rounded-xl hover:bg-orange-500 hover:text-white dark:hover:bg-orange-500 dark:hover:text-white transition-all shadow-lg shadow-orange-500/20"
+                className="bg-[#1C1917] dark:bg-[#F7F5F0] text-[#F7F5F0] dark:text-[#1C1917] p-2 rounded-full hover:bg-[#9A3412] dark:hover:bg-[#D6D3D1] dark:hover:text-[#1C1917] transition-all shadow-md"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -99,11 +98,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear, isSearching, p
             </div>
           </div>
           
-          {/* Neon Progress Line */}
+          {/* Progress Line */}
           {isSearching && (
-            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
+            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-stone-100 dark:bg-stone-800 overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 shadow-[0_0_10px_rgba(249,115,22,0.8)] transition-all duration-200 ease-out"
+                className="h-full bg-[#9A3412] dark:bg-[#D6D3D1] transition-all duration-200 ease-out"
                 style={{ width: `${progress}%` }}
               ></div>
             </div>

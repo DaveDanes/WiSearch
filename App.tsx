@@ -16,7 +16,7 @@ const App: React.FC = () => {
   const [lastQuery, setLastQuery] = useState('');
   const [progress, setProgress] = useState(0);
   const [systemError, setSystemError] = useState<string | null>(null);
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setTheme] = useState<'dark' | 'light'>('light');
 
   // Sync theme to HTML root
   useEffect(() => {
@@ -150,13 +150,13 @@ const App: React.FC = () => {
                 {/* Dynamic Hero Section */}
                 <div className={`flex flex-col items-center justify-center transition-all duration-1000 ease-in-out ${searchState === SearchState.IDLE ? 'min-h-[60vh]' : 'min-h-[20vh] translate-y-0'}`}>
                   <div className={`text-center transition-all duration-700 ${searchState === SearchState.IDLE ? 'scale-100 opacity-100' : 'scale-90 opacity-0 hidden'}`}>
-                    <h1 className="text-6xl md:text-8xl font-bold dark:text-white text-zinc-900 mb-8 tracking-tighter leading-none transition-colors duration-300">
+                    <h1 className="text-6xl md:text-8xl font-serif font-medium dark:text-stone-100 text-[#1C1917] mb-6 tracking-tight leading-none transition-colors duration-300">
                       Research <br/>
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 drop-shadow-[0_0_20px_rgba(249,115,22,0.3)]">
-                        Reimagined
+                      <span className="italic font-light text-[#9A3412] dark:text-[#D6D3D1]">
+                        Reimagined.
                       </span>
                     </h1>
-                    <p className="text-lg dark:text-zinc-400 text-zinc-600 max-w-lg mx-auto leading-relaxed mb-12 font-light transition-colors duration-300">
+                    <p className="text-lg dark:text-stone-400 text-stone-600 max-w-lg mx-auto leading-relaxed mb-12 font-light tracking-wide transition-colors duration-300 uppercase text-sm">
                       Intelligent Semantic Search Engine
                     </p>
                   </div>

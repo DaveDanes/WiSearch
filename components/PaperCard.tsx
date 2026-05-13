@@ -15,65 +15,52 @@ const PaperCard: React.FC<PaperCardProps> = ({ paper, rank }) => {
   
   return (
     <div 
-      className="group relative glass-card rounded-3xl p-8 hover:-translate-y-2 hover:border-orange-500/30 transition-all duration-500 ease-out opacity-0 animate-slide-up"
+      className="group relative bg-[#FFFFFF] dark:bg-[#292524] rounded-2xl p-8 hover:-translate-y-1 hover:shadow-2xl border border-stone-200 dark:border-stone-700/50 transition-all duration-500 ease-out opacity-0 animate-slide-up"
       style={{ animationDelay: `${(rank - 1) * 100}ms` }}
     >
-      {/* Hover Gradient Bloom */}
-      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-purple-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
       <div className="relative flex flex-col h-full z-10">
         {/* Header */}
         <div className="flex justify-between items-start mb-6">
           <div className="flex gap-2">
-            <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-black/5 dark:bg-white/5 text-orange-600 dark:text-orange-400 uppercase tracking-wide border border-black/10 dark:border-white/10 group-hover:bg-orange-500/10 transition-colors">
+            <span className="px-3 py-1 rounded-full text-[10px] font-medium bg-stone-100 dark:bg-stone-800 text-[#9A3412] dark:text-[#D6D3D1] tracking-widest uppercase border border-stone-200 dark:border-stone-700">
               {paper.domain}
             </span>
-            <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-black/5 dark:bg-white/5 text-zinc-600 dark:text-zinc-400 border border-black/10 dark:border-white/10">
+            <span className="px-3 py-1 rounded-full text-[10px] font-medium bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 tracking-widest uppercase border border-stone-200 dark:border-stone-700">
               {paper.year}
             </span>
           </div>
           
-          {/* Circular Score Indicator */}
-          <div className="relative w-10 h-10 flex items-center justify-center">
-            <svg className="w-full h-full transform -rotate-90">
-              <circle cx="20" cy="20" r="18" stroke="currentColor" strokeWidth="3" fill="transparent" className="text-zinc-200 dark:text-zinc-800" />
-              <circle 
-                cx="20" cy="20" r="18" 
-                stroke="currentColor" strokeWidth="3" fill="transparent" 
-                strokeDasharray={113}
-                strokeDashoffset={113 - (113 * normalizedScore) / 100}
-                className="text-orange-500 transition-all duration-1000 ease-out"
-              />
-            </svg>
-            <span className="absolute text-[10px] font-bold text-zinc-900 dark:text-white">{displayScore}%</span>
+          {/* Subtle Score Badge */}
+          <div className="flex items-center justify-center">
+            <span className="text-sm font-medium text-stone-400 dark:text-stone-500">{displayScore}% match</span>
           </div>
         </div>
 
         {/* Content */}
         <div className="mb-6 flex-grow">
-          <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-3 leading-tight group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+          <h3 className="text-2xl font-serif text-[#1C1917] dark:text-[#F7F5F0] mb-4 leading-snug group-hover:text-[#9A3412] dark:group-hover:text-[#D6D3D1] transition-colors">
             <a href={paper.url} target="_blank" rel="noopener noreferrer" className="focus:outline-none">
               <span className="absolute inset-0"></span>
               {paper.title}
             </a>
           </h3>
-          <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed line-clamp-3 group-hover:text-zinc-800 dark:group-hover:text-zinc-300 transition-colors">
+          <p className="text-stone-600 dark:text-stone-400 text-sm leading-relaxed line-clamp-3">
             {paper.abstract}
           </p>
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-6 border-t border-black/5 dark:border-white/5 group-hover:border-black/10 dark:group-hover:border-white/10 transition-colors">
+        <div className="flex items-center justify-between pt-6 border-t border-stone-100 dark:border-stone-800 transition-colors">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center text-[10px] font-bold text-zinc-700 dark:text-zinc-400 border border-black/5 dark:border-white/5">
+            <div className="w-6 h-6 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-[10px] font-serif text-stone-600 dark:text-stone-300 border border-stone-200 dark:border-stone-700">
               {paper.authors.charAt(0)}
             </div>
-            <span className="text-xs font-medium text-zinc-500 truncate max-w-[150px]">
+            <span className="text-xs text-stone-500 dark:text-stone-400 truncate max-w-[150px]">
               {paper.authors}
             </span>
           </div>
           
-          <div className="flex items-center text-xs font-bold text-orange-600 dark:text-orange-400 opacity-0 transform translate-x-[-10px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+          <div className="flex items-center text-xs font-medium tracking-wide text-[#9A3412] dark:text-[#D6D3D1] opacity-0 transform translate-x-[-10px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
             Read Paper
             <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
           </div>
